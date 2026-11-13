@@ -16,11 +16,11 @@ npm run build
 npm run preview
 ```
 
-The service worker and install prompt require HTTPS (or localhost). No API key is needed. Open-Meteo provides free geocoding and forecast endpoints; search suggestions are debounced by 260 ms.
+The service worker and install prompt require HTTPS (or localhost). No API key is needed. Open-Meteo provides free geocoding and forecast endpoints; search suggestions are debounced by 120 ms. Public API and network latency can push displayed suggestions beyond the challenge’s 300 ms target.
 
 ## Architecture decisions
 
-- Single-page React client with no server-side application.
+- Single-page React client with no server-side application. The page is composed from focused `CitySearch`, `FavoriteSidebar`, `WeatherCards`, `DaylightCard`, `ReminderCard`, and `RemoveFavoriteDialog` components; `src/lib/weather.js` owns storage helpers and weather formatting. `App` coordinates page state and async requests.
 - Open-Meteo's public geocoding endpoint provides city autocomplete and coordinates. The forecast endpoint supplies current conditions, daily highs/lows, daylight, UV and timezone-aware data. Weather condition codes are mapped to descriptive labels and icons in the client.
 - User preferences and favourites are stored in localStorage with guarded reads and writes so storage failures do not crash the dashboard. The last forecast is cached per coordinate pair; the service worker also caches successful forecast GET requests and serves them offline.
 - The responsive layout includes a mobile navigation drawer, keyboard-accessible search suggestions, inline errors, refresh states, a favourites confirmation dialog, a theme toggle and a persisted temperature unit.
@@ -31,10 +31,12 @@ The browser Notifications API can show a daily reminder while this page is open.
 
 The challenge asks for GeoDB via RapidAPI, which requires a key. This implementation uses Open-Meteo's free geocoding endpoint instead, avoiding a client-exposed secret and keeping the app functional without signup. Forecast reliability and cached data freshness depend on the public API and the user's network.
 
-## Deployment
+## Deployment and repository
 
-Build with `npm run build` and publish the generated `dist/` folder to Vercel, Netlify, or another static host configured for SPA fallback. Add the deployed URL here before submission. A public GitHub repository and live URL still need to be created by the project owner; neither is configured in this workspace.
+Public repository: [github.com/muhammad-dayyan-dev/WeatherBoard](https://github.com/muhammad-dayyan-dev/WeatherBoard). The latest QA fixes in this working tree have not been pushed yet. A live deployment has not been configured.
+
+Build with `npm run build` and publish the generated `dist/` folder to Vercel, Netlify, or another static host configured for SPA fallback. Add the live URL here before submission.
 
 ## Agent prompt history
 
-The full user prompt history available in this Codex desktop task is recorded in [PROMPTS.md](./PROMPTS.md), including the initial challenge request and QA follow-up. The supplied challenge PDF is included in the repository as the source brief.
+The full user prompt history available in this Codex desktop task is recorded in [PROMPTS.md](./PROMPTS.md), including the challenge request and all QA follow-ups.

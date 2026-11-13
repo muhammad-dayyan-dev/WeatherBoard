@@ -1,12 +1,5 @@
-const CACHE = "weatherboard-shell-v1";
-const SHELL = [
-  "/",
-  "/index.html",
-  "/manifest.webmanifest",
-  "/icons/weatherboard.svg",
-  "/icons/icon-192.png",
-  "/icons/icon-512.png",
-];
+const CACHE = "__WB_CACHE__";
+const SHELL = "__WB_PRECACHE__";
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches

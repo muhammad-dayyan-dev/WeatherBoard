@@ -31,3 +31,6 @@ next-env.d.ts
 
 .critic-shots
 .DS_Store
+
+# Vite production output
+/dist
